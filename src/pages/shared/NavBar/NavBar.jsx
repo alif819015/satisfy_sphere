@@ -1,8 +1,10 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import icon from "../../../../public/Mahmud Hasan.jpg";
+
+const styles = "flex justify-between items-center p-5 fixed z-10";
 
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -11,9 +13,30 @@ const NavBar = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const [isScrolling, setIsScrolling] = useState(false);
+
+  useEffect(() => {
+    let timer;
+
+    const handleScroll = () => {
+      setIsScrolling(true);
+      clearTimeout(timer);
+      timer = setTimeout(() => setIsScrolling(false), 1000);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const styles2 = `container mx-auto ${styles} lg:transition-colors lg:duration-500 bg-${
+    isScrolling ? "gray-700 opacity-60" : ""
+  } bg-scroll`;
   return (
-    <nav className="bg-black py-4 ">
-      <div className="container mx-auto flex justify-between items-center px-5">
+    <nav className="">
+      <div className={styles2}>
         <Link href="/" className="text-white text-xl font-bold">
           SatisfySphere
         </Link>
@@ -33,8 +56,12 @@ const NavBar = () => {
             Contact
           </Link>
           <div className="hidden lg:block">
-            <div className="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center">
-              <Image src={icon} className="rounded-full" alt="Online avater" />
+            <div className="border-2 border-[#028090] rounded-full  flex items-center justify-center">
+              <Image
+                src={icon}
+                className="rounded-full w-12 h-12"
+                alt="Online avater"
+              />
             </div>
           </div>
         </div>
@@ -86,10 +113,10 @@ const NavBar = () => {
                 Contact
               </Link>
               <div className="flex items-center">
-                <div className="w-12 h-12 mx-auto mt-5 rounded-full bg-green-500 flex items-center justify-center">
+                <div className=" mx-auto mt-5 flex items-center justify-center">
                   <Image
                     src={icon}
-                    className="rounded-full"
+                    className="border-2 border-[#028090] rounded-full w-12 h-12"
                     alt="Online avater"
                   />
                 </div>

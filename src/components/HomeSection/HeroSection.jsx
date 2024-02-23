@@ -4,7 +4,7 @@ import BannerCarousel from "../BannerCarousel";
 
 const HeroSection = () => {
   return (
-    <div className="bg-red-600">
+    <div className="">
       <div className="container mx-auto">
         <BannerCarousel />
       </div>

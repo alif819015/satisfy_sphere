@@ -1,5 +1,4 @@
 import HeroSection from "@/components/HomeSection/HeroSection";
-import Image from "next/image";
 
 const HomePage = () => {
   return (
