@@ -1,8 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { NavOption, NavOption2 } from "./NavMenu";
+import Link from "next/link";
+import { signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
-const styles = "flex justify-between items-center py-3 px-5 fixed z-10";
+const styles = "flex justify-between items-center p-3 lg:p-5 fixed z-10";
 
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -12,6 +14,14 @@ const NavBar = () => {
   };
 
   const [isScrolling, setIsScrolling] = useState(false);
+
+  const { data: session } = useSession();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await signOut();
+    router.push("/logIn");
+  };
 
   useEffect(() => {
     let timer;
@@ -29,7 +39,77 @@ const NavBar = () => {
     };
   }, []);
 
-  const styles2 = `container mx-auto bg-black ${styles} lg:transition-colors lg:duration-500 bg-${
+  const NavOption = (
+    <>
+      <Link href="/" className="text-white text-xl font-bold">
+        SatisfySphere
+      </Link>
+
+      <div className="hidden md:flex items-center space-x-4">
+        <Link href="/" className="text-white hover:text-gray-300">
+          Home
+        </Link>
+        <Link href="/about" className="text-white hover:text-gray-300">
+          About
+        </Link>
+
+        <Link href="#" className="text-white hover:text-gray-300">
+          Services
+        </Link>
+        <Link href="#" className="text-white hover:text-gray-300">
+          Contact
+        </Link>
+        {session ? (
+          <button
+            onClick={handleLogout}
+            className="text-white hover:text-gray-300"
+          >
+            Logout
+          </button>
+        ) : (
+          <button>
+            <Link href="/logIn" className="text-white hover:text-gray-300">
+              Signin
+            </Link>
+          </button>
+        )}
+      </div>
+    </>
+  );
+
+  const NavOption2 = (
+    <>
+      <Link href="/" className="block px-4 py-2 text-white hover:text-gray-300">
+        Home
+      </Link>
+      <Link
+        href="/about"
+        className="block px-4 py-2 text-white hover:text-gray-300"
+      >
+        About
+      </Link>
+      <Link href="#" className="block px-4 py-2 text-white hover:text-gray-300">
+        Services
+      </Link>
+      <Link href="#" className="block px-4 py-2 text-white hover:text-gray-300">
+        Contact
+      </Link>
+      <Link
+        href="/logIn"
+        className="block px-4 py-2 text-white hover:text-gray-300"
+      >
+        LogIn
+      </Link>
+      <button
+        onClick={handleLogout}
+        className="block px-4 py-2 text-white hover:text-gray-300"
+      >
+        Logout
+      </button>
+    </>
+  );
+
+  const styles2 = `${styles} container mx-auto bg-black lg:transition-colors lg:duration-500 bg-${
     isScrolling ? "gray-700 opacity-60" : ""
   } bg-scroll`;
   return (

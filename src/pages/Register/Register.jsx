@@ -1,13 +1,16 @@
 "use client";
 import Link from "next/link";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  console.log("Name", name, "Email", email);
+
+  const router = useRouter();
+  // console.log("Name", name, "Email", email);
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!name || !email || !password) {
@@ -42,6 +45,7 @@ const Register = () => {
       if (res.ok) {
         const form = e.target;
         form.reset();
+        router.push("/");
       } else {
         console.log("User registation field");
       }
@@ -53,7 +57,7 @@ const Register = () => {
   return (
     <div className="grid h-full place-items-center pt-24 pb-14">
       <div className="shadow-lg p-5 rounded-lg border-t-4 border-cyan-600">
-        <h1 className="text-2xl font-bold my-3">Register Page</h1>
+        <h1 className="text-2xl font-bold py-5 text-center">Register Page</h1>
 
         <form
           onSubmit={handleSubmit}

@@ -1,7 +1,8 @@
-import { Inter, Poppins, Raleway, Roboto } from "next/font/google";
+import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import NavBar from "@/pages/shared/NavBar/NavBar";
 import Footer from "@/pages/shared/Footer/Footer";
+import { AuthProvider } from "./Providers";
 
 const inter = Inter({ subsets: ["latin"] });
 const poppins = Poppins({
@@ -18,10 +19,12 @@ const RootLayout = ({ children }) => {
   return (
     <html lang="en">
       <body className={poppins.className}>
-        <nav>
-          <NavBar />
-        </nav>
-        {children}
+        <AuthProvider>
+          <nav>
+            <NavBar />
+          </nav>
+          {children}
+        </AuthProvider>
         <footer>
           <Footer />
         </footer>
